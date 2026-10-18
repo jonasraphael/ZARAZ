@@ -42,8 +42,6 @@ jobs:
           python-version: "3.12"
       - name: Install dependencies
         run: pip install . "pyinstaller>=6.3"
-      - name: Generate the application icon
-        run: python installer/make_icon.py
       - name: Build Zaraz.exe (GUI, without a console window)
         run: >
           pyinstaller --noconfirm --clean --onefile --windowed
