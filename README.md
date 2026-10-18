@@ -1,4 +1,4 @@
-#ZARAZ - "Zero-hassle Archive & Restore Application Zone"
+ZARAZ - "Zero-hassle Archive & Restore Application Zone"
 
 Your saves, instantly there.
 
