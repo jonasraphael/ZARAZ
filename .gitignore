@@ -1,0 +1,31 @@
+# Python & Builds
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+*.spec
+
+# Installer Payload
+installer/payload/
+installer/.cache/
+/releases/
+/installer/*.exe
+
+# Duplicate backup files in the downloaded source folder
+**/*_1.*
+
+# Tests, IDEs & OS
+.pytest_cache/
+.idea/
+.vscode/
+Thumbs.db
+.DS_Store
+
+# Versteckte System-/App-Caches & Configs (überall im Projekt)
+**/.bun/
+**/.cache/
+**/.config/
+**/.claude/

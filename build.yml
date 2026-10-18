@@ -1,0 +1,94 @@
+# .github/workflows/build.yml
+name: build
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: # can also be started manually from the Actions tab
+
+jobs:
+  # ------------------------------------------------------------------
+  # 1) Tests – on every push and pull request
+  # ------------------------------------------------------------------
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: pip install ".[dev]"
+      - name: Run tests
+        run: pytest
+
+  # ------------------------------------------------------------------
+  # 2) Windows build: Zaraz.exe (GUI), Zaraz-CLI.exe and the setup
+  # ------------------------------------------------------------------
+  build-windows:
+    needs: test
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install . "pyinstaller>=6.3"
+      - name: Generate the application icon
+        run: python installer/make_icon.py
+      - name: Build Zaraz.exe (GUI, without a console window)
+        run: >
+          pyinstaller --noconfirm --clean --onefile --windowed
+          --icon installer/zaraz.ico
+          --name Zaraz --paths src src/zaraz/gui/__main__.py
+      - name: Build Zaraz-CLI.exe (command line version)
+        run: >
+          pyinstaller --noconfirm --clean --onefile
+          --name Zaraz-CLI --paths src src/zaraz/__main__.py
+      - name: Install NSIS
+        run: choco install nsis --yes --no-progress
+      - name: Build the setup installer
+        run: python installer/build_installer.py
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: zaraz-windows
+          path: |
+            dist/*.exe
+            releases/*.exe
+          if-no-files-found: error
+
+  # ------------------------------------------------------------------
+  # 3) Release – only for tags (v0.1.0, v0.2.0, ...)
+  # ------------------------------------------------------------------
+  release:
+    needs: build-windows
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download the build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: zaraz-windows
+          path: dist
+      - name: Name the executables after the tag
+        run: |
+          cd dist
+          mv Zaraz.exe "Zaraz-${{ github.ref_name }}.exe"
+          mv Zaraz-CLI.exe "Zaraz-CLI-${{ github.ref_name }}.exe"
+          mv Zaraz-Setup-*.exe "Zaraz-Setup-${{ github.ref_name }}.exe"
+      - name: Create the GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.exe
+          generate_release_notes: true
