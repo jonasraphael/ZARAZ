@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "zaraz"
-version = "0.1.1"
+version = "0.1.2"
 description = "Zero-hassle Archive & Restore Application Zone – backs up save files from SD cards to the PC"
 readme = "README.md"
 license = { text = "MIT" }
