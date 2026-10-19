@@ -4,4 +4,4 @@
 Not affiliated with or endorsed by Nintendo.
 """
 
-__version__ = "0.1.2"
+__version__ = "0.1.1"
