@@ -82,6 +82,7 @@ jobs:
       - name: Name the executables after the tag
         run: |
           cd dist
+          find . -mindepth 2 -type f -name '*.exe' -exec mv {} . \;
           mv Zaraz.exe "Zaraz-${{ github.ref_name }}.exe"
           mv Zaraz-CLI.exe "Zaraz-CLI-${{ github.ref_name }}.exe"
           mv Zaraz-Setup-*.exe "Zaraz-Setup-${{ github.ref_name }}.exe"
