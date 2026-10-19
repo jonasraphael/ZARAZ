@@ -37,7 +37,7 @@ Launch Zaraz, plug in your SD Card, select your save and your destination.
 Installing from source instead:
 
 ```bash
-`# Run these commands from the project folder containing pyproject.toml`
+# Run these commands from the project folder containing pyproject.toml
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install .
 .\.venv\Scripts\python.exe -m zaraz.gui
