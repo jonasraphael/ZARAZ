@@ -26,7 +26,7 @@ SetCompressor /SOLID lzma
 !define REG_UNINSTALL "Software\Microsoft\Windows\CurrentVersion\Uninstall\ZARAZ"
 
 !ifndef APP_VERSION
-  !define APP_VERSION "0.1.1"
+  !define APP_VERSION "0.1.2"
 !endif
 !ifndef PAYLOAD_DIR
   !define PAYLOAD_DIR "payload"
