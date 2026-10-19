@@ -37,10 +37,10 @@ Launch Zaraz, plug in your SD Card, select your save and your destination.
 Installing from source instead:
 
 ```bash
+`# Run these commands from the project folder containing pyproject.toml`
 python -m venv .venv
-.venv\Scripts\activate
-pip install .
-zaraz-gui
+.\.venv\Scripts\python.exe -m pip install .
+.\.venv\Scripts\python.exe -m zaraz.gui
 ```
 
 ## Command line
@@ -55,10 +55,9 @@ zaraz --strategy rename      # rename | overwrite | skip
 ## Development
 
 ```bash
-`# Run these commands from the project folder containing pyproject.toml`
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install .
-.\.venv\Scripts\python.exe -m zaraz.gui
+pip install ".[dev]"
+pytest
+python -m zaraz.gui
 ```
 
 Building the Windows setup (needs [NSIS](https://nsis.sourceforge.io)):
