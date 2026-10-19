@@ -55,9 +55,10 @@ zaraz --strategy rename      # rename | overwrite | skip
 ## Development
 
 ```bash
-pip install ".[dev]"
-pytest
-python -m zaraz.gui          # start the graphical interface
+`# Run these commands from the project folder containing pyproject.toml`
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install .
+.\.venv\Scripts\python.exe -m zaraz.gui
 ```
 
 Building the Windows setup (needs [NSIS](https://nsis.sourceforge.io)):
